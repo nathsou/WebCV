@@ -20,8 +20,8 @@
 	// Show the output window only if unrecognized errors occur.
 	"showOutput": "silent",
 
-	"args": ["--out", "production/wcv_0.2.0.js", "src/wcv.ts"],
-	//"args": ["src/wcv.ts", "src/wcv_utils.ts", "demo/demo.ts"],
+	//"args": ["--out", "production/wcv_0.2.0.js", "src/wcv.ts"],
+	"args": ["src/wcv.ts", "src/wcv_utils.ts", "demo/demo.ts"],
 	// use the standard tsc problem matcher to find compile problems
 	// in the output.
 	"problemMatcher": "$tsc"

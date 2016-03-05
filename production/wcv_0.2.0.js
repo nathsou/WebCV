@@ -81,7 +81,7 @@ var wcv;
     };
     var Texture = (function () {
         function Texture(img) {
-            this.callbacks = [];
+            this.callacks = [];
             this.name = 'u_image_' + (textureCount++);
             if (img instanceof HTMLImageElement) {
                 this.img = img;
@@ -92,17 +92,15 @@ var wcv;
                 }, this);
                 var that = this;
                 this.img.onload = function () {
-                    for (var _i = 0, _a = that.callbacks; _i < _a.length; _i++) {
+                    for (var _i = 0, _a = that.callacks; _i < _a.length; _i++) {
                         var cb = _a[_i];
                         cb.callback.call(cb.thisArg);
                     }
-                    that.callbacks = [];
+                    that.callacks = [];
                 };
             }
             else {
-                this.data = img;
-                this.width = img.width;
-                this.height = img.height;
+                this.img = document.querySelector(img);
             }
         }
         Texture.prototype.loaded = function () {
@@ -117,7 +115,7 @@ var wcv;
             if (this.loaded())
                 callback.call(thisArg || this);
             else
-                this.callbacks.push({ callback: callback, thisArg: thisArg || this });
+                this.callacks.push({ callback: callback, thisArg: thisArg || this });
         };
         Texture.prototype.at = function (coord) {
             return new Vec4(['texture2D(' + this.name + ', ' + coord + ')']);

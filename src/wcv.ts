@@ -80,13 +80,12 @@ module wcv {
 export class Texture {
         public img : HTMLImageElement;
         public name : string;
-        private callbacks : Callback[] = [];
-        public data : ImageData;
-        public width : number;
-        public height: number;
+        private callacks : Callback[] = [];
+		public width: number;
+        public height : number;
 		public id: WebGLTexture;
 
-        constructor(img : HTMLImageElement | ImageData) {
+        constructor(img : HTMLImageElement | string) {
 
             this.name = 'u_image_' + (textureCount++);
 
@@ -103,33 +102,33 @@ export class Texture {
                 let that = this;
 
                 this.img.onload = function() {
-                    for(let cb of that.callbacks) cb.callback.call(cb.thisArg);
+                    for(let cb of that.callacks) cb.callback.call(cb.thisArg);
 
-                    that.callbacks = [];
+                    that.callacks = [];
                 };
 
-            }else{
-                this.data = img as ImageData;
-                this.width = img.width;
-                this.height = img.height;
+            } else {
+				this.img = document.querySelector(img as string) as HTMLImageElement; 
+				this.width = this.img.width;
+				this.height = this.img.height;
             }
         }
 
-        loaded() : boolean{
+        loaded() : boolean {
             if(this.img)
                 return this.img.complete;
 
             return true;
         }
 
-        toString() : string{
+        toString() : string {
             return this.name;
         }
 
         onload(callback : Function, thisArg? : any){
 
             if(this.loaded()) callback.call(thisArg || this);
-            else this.callbacks.push({callback: callback, thisArg: thisArg || this});
+            else this.callacks.push({callback: callback, thisArg: thisArg || this});
         }
 
 		at(coord: Var | string): Vec4 { //Returns texture's color at coord
