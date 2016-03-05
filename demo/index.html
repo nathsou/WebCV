@@ -1,0 +1,51 @@
+
+<html>
+    <head>
+        <meta charset="utf-8"></head>
+        <title>WebCV - demo</title>
+    </head>
+    
+    <body>
+        
+        <script src="../src/wcv.js"></script>
+        <script src="../src/wcv_utils.js"></script>
+        <script src="demo.js"></script>
+        
+        <canvas id='cnv' width="800" height="600"></canvas>
+        <!--<img id='cube' crossorigin="anonymous" src='http://i.imgur.com/mKh3dY0.jpg'></img>-->
+        <img id='mona' style="visibility: hidden; position: absolute;" crossorigin="anonymous" src='http://i.imgur.com/N6NEJLU.jpg'></img>
+ 		</br>
+ 		<!--<span id='thresh'>80</span><input type='range' id='threshSlider' min="0" max="255" step="1" value="80">-->
+ 
+        <script src="demo.js"></script>
+        
+        <script>
+            var mona = document.getElementById('mona'),
+                cnv = document.getElementById('cnv'),
+				threshSlider = document.getElementById('threshSlider'),
+				tex = new wcv.Texture(mona);
+				
+            
+            mona.onload = function(){
+				var factor = 1;
+                cnv.width = mona.width / factor
+				cnv.height = mona.height / factor;
+				
+                applyFilters(tex, {thresh: 80 / 255});
+					
+				//threshSlider.onmousemove = handleChange;
+				
+				//threshSlider.onchange = handleChange;
+				
+			};
+			
+			var handleChange = function(){
+					document.getElementById('thresh').innerText = threshSlider.value;
+					applyFilters(tex, {thresh: threshSlider.value / 255});
+				};
+					
+		</script>
+			    
+    </body>
+    
+</html>

@@ -1,0 +1,116 @@
+<html>
+    <head>
+        <meta charset="utf-8"></head>
+        <title>Drag'N'Drop - WebCV</title>
+    </head>
+    
+    <body>
+        
+        <style>
+            
+            body {
+                background-color: #2980b9;
+            }
+         
+            #centerBox {
+                text-align: center;
+                min-width: 400px;
+                max-width: 900px;
+                min-height: 550px;
+                padding: 10px;
+                margin: auto;
+                border: 5px dashed lightgrey;
+                background-color: #16a085;
+            }
+            
+            #centerBox:hover {
+                border-color: white;
+            }
+            
+            #centerBox:active {
+                background-color: #1abc9c;
+            }
+            
+            #cnv {
+                margin-top: 10px;
+                max-width: 900px;
+            }
+            
+            input[type=file] {
+                visibility: hidden;
+            }
+        </style>
+        
+        <script src="../production/wcv_0.2.0.js"></script>
+        <script src="../src/wcv_utils.js"></script>
+        <script src="demo.js"></script>
+        
+        <input type="file">
+        
+        <div id='centerBox'>
+            <canvas id='cnv'></canvas>
+        </div>
+        
+        <script>
+            
+            var cnv = document.getElementById('cnv');
+            
+            //trigger()
+            HTMLElement.prototype.trigger = function(type){
+                if ((this[type] || false) && typeof this[type] === 'function'){
+                    this[type](this);
+                }
+            };
+            
+            var dropZone = document.querySelector('#centerBox'),
+                fileInput = document.querySelector('input[type=file]');
+                
+            fileInput.addEventListener('change', function(e){
+                handleFiles(e.target.files);
+            })
+            
+            dropZone.addEventListener('click', function(){
+                    fileInput.trigger('click'); 
+                }, false);
+            
+            dropZone.addEventListener('dragover', function handleDragOver(evt) {
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                    evt.dataTransfer.dropEffect = 'copy';
+                }, false);
+            
+            dropZone.addEventListener('drop', function(evt) {
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                    var files = evt.dataTransfer.files;
+
+                    handleFiles(files);
+                }, false);
+            
+            function handleFiles(files){
+                
+                var file = files[0];
+                
+                var img = new Image();
+                img.style.maxWidth = 'inherit';
+                
+                var reader = new FileReader();
+                reader.onload = function(e){
+                    img.src = e.target.result;
+                    
+                    img.onload = function(){
+                        cnv.width = img.width;
+                        cnv.height = img.height;
+                        applyFilters(new wcv.Texture(img));
+                    };
+                    
+                };
+                
+                reader.readAsDataURL(file);
+            }
+            
+        </script>
+        
+    </body>
+    
+</html>
