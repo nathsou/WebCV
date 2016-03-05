@@ -12,7 +12,7 @@ The *Context* class initiates some default GLSL vertex and fragment shaders requ
 In order to create a *Context*, one needs to provide WebCV with an HTML5 canvas element and at least one image :
 
 ```javascript
-var tex = new wcv.Texture('.landscape'),
+var tex = new wcv.Texture('#lena'),
 	ctx = new wcv.Context('#canvas', tex);
 	
 var fragmentShader = ctx.fs,
@@ -43,20 +43,84 @@ ctx.fragColor.set(ctx.fragColor.add(pinkify)); //La vie en rose
 ctx.render();	
 ```
 	
-The above example uses builtin wcv functions to manipulate the underlying shaders, however, if you want and know how to, you can 
+The above example uses built-in wcv functions to manipulate the underlying shaders, however, if you want and know how to, you can 
 edit the programs directly in GLSL ES 2.0 :
 
 ```javascript
-	
 var tex = new wcv.Texture('#lena'),
 	ctx = new wcv.Context('#canvas', tex);
+	
 	ctx.fs.main.append(
 		'vec4 pinkify = vec4(0.4, 0, 0.4, 1)',
 		'fragColor = fragColor + pinkify'
 	);
+	
+	ctx.render();
 ```
 	
 both of the above will produce the following result :
 
 ![lena_pinkifify](demo/images/pinkify.png)
 	
+### Going a bit further
+
+##### WebCV comes in with a bunch useful functions and filters :
+
+- Convolution
+
+A lot of very interesting effects can be applied thanks to a [convolution kernel](https://en.wikipedia.org/wiki/Kernel_(image_processing))
+
+Let's apply the [following kernel](http://homepages.inf.ed.ac.uk/rbf/HIPR2/mean.htm) to our image :
+
+![3 by 3 Mean filter](demo/images/kernel_1.png)
+
+WebCV provides a *convolution* function, ready to use as follows :
+
+```javascript
+var kernel = [1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9, 1/9];
+	
+var conv = ctx.convolution(tex, kernel);
+	
+ctx.fragColor.set(conv);
+```
+
+This kernel blurs the image : 
+
+![blur](demo/images/blur.png)
+
+#### Sobel operator
+
+A very common filter in computer vision is the [Sobel Operator](https://en.wikipedia.org/wiki/Sobel_operator) which 
+highlights image's contours.
+
+Usage : 
+
+```javascript
+
+var GradientIntensity = ctx.sobel(tex);  //returns a float
+
+ctx.fragColor.set(vec4(vec3(GradientIntensity), 1));
+```
+
+Result : 
+
+![blur](demo/images/sobel.png)
+
+#### Posterize
+
+Usage : 
+
+```javascript
+
+var posterize = ctx.posterize(ctx.fragColor)  //returns a vec4
+
+ctx.fragColor.set(vec4(vec3(GradientIntensity), 1));
+```
+
+Result : 
+
+![blur](demo/images/posterize.png)
+
+### Extending WebCV
+
+WebCV lets you add your own functions to the core library
