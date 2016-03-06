@@ -139,6 +139,10 @@ ctx.fs.main.append(
 ctx.fragColor.set('color');
 ```
 
+Result :
+
+![combine](demo/images/combine.png)
+
 ### Extending WebCV
 
 WebCV lets you add your own functions to the core library
