@@ -36,9 +36,9 @@ Once every instructions given, one needs to call the *render()* function of the 
 var tex = new wcv.Texture('#lena'),
 	ctx = new wcv.Context('#canvas', tex);
 	
-var pinkify = vec4(0.4, 0, 0.4, 1);
+var purpleize = vec4(0, 0, 0.7, 1);
 
-ctx.fragColor.set(ctx.fragColor.add(pinkify)); //La vie en rose
+ctx.fragColor.set(ctx.fragColor.add(purpleize)); //La vie en rose
 	
 ctx.render();	
 ```
