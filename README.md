@@ -60,7 +60,7 @@ var tex = new wcv.Texture('#lena'),
 	
 both of the above will produce the following result :
 
-![lena_pinkifify](demo/images/pinkify.png)
+[![lena_pinkifify](demo/images/pinkify.png)](https://jsfiddle.net/nathsou/b03391kz/)
 	
 ### Going a bit further
 
@@ -86,7 +86,7 @@ ctx.fragColor.set(conv);
 
 This kernel blurs the image : 
 
-![blur](demo/images/blur.png)
+[![blur](demo/images/blur.png)](https://jsfiddle.net/nathsou/b03391kz/1/)
 
 #### Sobel operator
 
@@ -104,7 +104,7 @@ ctx.fragColor.set(vec4(vec3(GradientIntensity), 1));
 
 Result : 
 
-![blur](demo/images/sobel.png)
+[![sobel](demo/images/sobel.png)](https://jsfiddle.net/nathsou/b03391kz/4/)
 
 #### Posterize
 
@@ -112,14 +112,14 @@ Usage :
 
 ```javascript
 
-var posterize = ctx.posterize(ctx.fragColor, gamma?, numColors?)  //returns a vec4
+var posterize = ctx.posterize(ctx.fragColor, gamma?, numColors?);  //returns a vec4
 
-ctx.fragColor.set(vec4(vec3(GradientIntensity), 1));
+ctx.fragColor.set(vec4(vec3(posterize), 1));
 ```
 
 Result : 
 
-![blur](demo/images/posterize.png)
+[![posterize](demo/images/posterize.png)](https://jsfiddle.net/nathsou/b03391kz/2/)
 
 #### Combining GLSL & JavaScript
 
@@ -141,7 +141,7 @@ ctx.fragColor.set('color');
 
 Result :
 
-![combine](demo/images/combine.png)
+[![combine](demo/images/combine.png)](https://jsfiddle.net/nathsou/b03391kz/3/)
 
 ### Extending WebCV
 
