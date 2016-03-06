@@ -51,8 +51,8 @@ var tex = new wcv.Texture('#lena'),
 	ctx = new wcv.Context('#canvas', tex);
 	
 	ctx.fs.main.append(
-		'vec4 pinkify = vec4(0.4, 0, 0.4, 1)',
-		'fragColor = fragColor + pinkify'
+		'vec4 purpleize = vec4(0, 0, 0.7, 1)',
+		'fragColor = fragColor + purpleize'
 	);
 	
 	ctx.render();
@@ -60,7 +60,7 @@ var tex = new wcv.Texture('#lena'),
 	
 both of the above will produce the following result :
 
-[![lena_pinkifify](demo/images/pinkify.png)](https://jsfiddle.net/nathsou/b03391kz/)
+[![lena_pinkifify](demo/images/purpleize.png)](https://jsfiddle.net/nathsou/b03391kz/5/)
 	
 ### Going a bit further
 
